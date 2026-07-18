@@ -8,8 +8,16 @@ def get_author_by_id(db: Session, pk: int) -> models.Author | None:
     return db.query(models.Author).get(ident=pk)
 
 
-def get_book_list(db: Session) -> list[models.Book]:
-    return db.query(models.Book).all()
+def get_book_list(
+    db: Session,
+    author_id: int | None = None
+) -> list[models.Book]:
+    query = db.query(models.Book)
+
+    if author_id is not None:
+        query = query.filter(models.Book.author_id == author_id)
+
+    return query.all()
 
 
 def create_book(db: Session, data: schemas.BookCreateModel) -> models.Book:
