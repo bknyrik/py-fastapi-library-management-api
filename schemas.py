@@ -3,6 +3,15 @@ from datetime import date
 from pydantic import BaseModel
 
 
+class AuthorBaseModel(BaseModel):
+    name: str
+    bio: str
+
+
+class AuthorCreateModel(AuthorBaseModel):
+    ...
+
+
 class BookBaseModel(BaseModel):
     title: str
     summary: str
