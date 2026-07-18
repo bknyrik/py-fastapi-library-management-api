@@ -60,7 +60,7 @@ def write_author(
     return crud.create_author(db, data)
 
 
-@app.get("/books/", response_model=Page[schemas.BookModel])
+@app.get("/books/", response_model=Page[schemas.BookListRetrieveModel])
 def get_all_books(
     author_id: int | None = None,
     db: Session = Depends(get_db)
@@ -68,7 +68,7 @@ def get_all_books(
     return paginate(crud.get_book_list(db, author_id))
 
 
-@app.post("/books/", response_model=schemas.BookModel)
+@app.post("/books/", response_model=schemas.BookListRetrieveModel)
 def write_book(
     data: schemas.BookCreateModel,
     db: Session = Depends(get_db)

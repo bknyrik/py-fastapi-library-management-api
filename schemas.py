@@ -15,7 +15,7 @@ class AuthorCreateModel(AuthorBaseModel):
 
 class AuthorListRetrieveModel(AuthorBaseModel):
     id: int
-    books: list[BookModel]
+    books: list[BookListRetrieveModel]
 
     model_config = ConfigDict(from_attributes=True)
 
@@ -31,7 +31,7 @@ class BookCreateModel(BookBaseModel):
     ...
 
 
-class BookModel(BookBaseModel):
+class BookListRetrieveModel(BookBaseModel):
     id: int
 
     model_config = ConfigDict(from_attributes=True)
