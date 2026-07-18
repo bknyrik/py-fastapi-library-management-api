@@ -49,6 +49,14 @@ def get_single_author(
     return author
 
 
+@app.post("/authors/", response_model=schemas.AuthorListRetrieveModel)
+def write_author(
+    data: schemas.AuthorCreateModel,
+    db: Session = Depends(get_db)
+) -> models.Author:
+    return crud.create_author(db, data)
+
+
 @app.get("/books/", response_model=list[schemas.BookModel])
 def get_all_books(
     author_id: int | None = None,
