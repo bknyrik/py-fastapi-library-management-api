@@ -12,6 +12,15 @@ def get_author_by_id(db: Session, pk: int) -> models.Author | None:
     return db.query(models.Author).get(ident=pk)
 
 
+def create_author(db: Session, data: schemas.AuthorCreateModel) -> models.Author:
+    author = models.Author(**data.model_dump())
+
+    db.add(author)
+    db.commit()
+    db.refresh(author)
+    return author
+
+
 def get_book_list(
     db: Session,
     author_id: int | None = None
