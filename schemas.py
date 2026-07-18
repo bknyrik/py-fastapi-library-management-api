@@ -1,7 +1,7 @@
 from __future__ import annotations
 from datetime import date
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class AuthorBaseModel(BaseModel):
@@ -17,6 +17,8 @@ class AuthorListRetrieveModel(AuthorBaseModel):
     id: int
     books: list[BookModel]
 
+    model_config = ConfigDict(from_attributes=True)
+
 
 class BookBaseModel(BaseModel):
     title: str
@@ -31,3 +33,5 @@ class BookCreateModel(BookBaseModel):
 
 class BookModel(BookBaseModel):
     id: int
+
+    model_config = ConfigDict(from_attributes=True)
