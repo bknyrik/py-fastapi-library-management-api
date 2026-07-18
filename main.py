@@ -1,6 +1,7 @@
 from typing import Generator
 
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi_pagination import Page, add_pagination, paginate
 from sqlalchemy.orm import Session
 
 import schemas
@@ -19,15 +20,17 @@ def get_db() -> Generator:
 
 
 app = FastAPI()
+add_pagination(app)
 
 
 @app.get(
     "/authors/",
-    response_model=list[schemas.AuthorListRetrieveModel])
+    response_model=Page[schemas.AuthorListRetrieveModel]
+)
 def get_all_authors(
     db: Session = Depends(get_db)
-):
-    return crud.get_author_list(db)
+) -> Page[models.Author]:
+    return paginate(crud.get_author_list(db))
 
 
 @app.get(
@@ -57,12 +60,12 @@ def write_author(
     return crud.create_author(db, data)
 
 
-@app.get("/books/", response_model=list[schemas.BookModel])
+@app.get("/books/", response_model=Page[schemas.BookModel])
 def get_all_books(
     author_id: int | None = None,
     db: Session = Depends(get_db)
-) -> list[models.Book]:
-    return crud.get_book_list(db, author_id)
+) -> Page[models.Book]:
+    return paginate(crud.get_book_list(db, author_id))
 
 
 @app.post("/books/", response_model=schemas.BookModel)
