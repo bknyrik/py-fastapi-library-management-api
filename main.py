@@ -1,6 +1,6 @@
 from typing import Generator
 
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 import schemas
@@ -28,6 +28,25 @@ def get_all_authors(
     db: Session = Depends(get_db)
 ):
     return crud.get_author_list(db)
+
+
+@app.get(
+    "/authors/{pk}/",
+    response_model=schemas.AuthorListRetrieveModel
+)
+def get_single_author(
+    pk: int,
+    db: Session = Depends(get_db)
+) -> models.Author:
+    author = crud.get_author_by_id(db, pk)
+
+    if not author:
+        raise HTTPException(
+            status_code=404,
+            detail="Author not found"
+        )
+
+    return author
 
 
 @app.get("/books/", response_model=list[schemas.BookModel])
