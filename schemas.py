@@ -12,6 +12,12 @@ class AuthorCreateModel(AuthorBaseModel):
     ...
 
 
+class AuthorListRetrieveModel(AuthorBaseModel):
+    id: int
+    books: list[int]
+
+
+
 class BookBaseModel(BaseModel):
     title: str
     summary: str
