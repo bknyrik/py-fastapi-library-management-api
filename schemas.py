@@ -8,3 +8,7 @@ class BookBaseModel(BaseModel):
     summary: str
     publication_date: date
     author_id: int
+
+
+class BookCreateModel(BookBaseModel):
+    ...
