@@ -1,7 +1,11 @@
 from typing import Generator
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
+from sqlalchemy.orm import Session
 
+import schemas
+import models
+import crud
 from database import SessionLocal
 
 
@@ -15,3 +19,8 @@ def get_db() -> Generator:
 
 
 app = FastAPI()
+
+
+@app.get("/books/", response_model=list[schemas.BookModel])
+def get_all_books(db: Session = Depends(get_db)) -> list[models.Book]:
+    return crud.get_book_list(db)
