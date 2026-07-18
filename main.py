@@ -21,6 +21,15 @@ def get_db() -> Generator:
 app = FastAPI()
 
 
+@app.get(
+    "/authors/",
+    response_model=list[schemas.AuthorListRetrieveModel])
+def get_all_authors(
+    db: Session = Depends(get_db)
+):
+    return crud.get_author_list(db)
+
+
 @app.get("/books/", response_model=list[schemas.BookModel])
 def get_all_books(
     author_id: int | None = None,
