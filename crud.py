@@ -4,6 +4,10 @@ import models
 import schemas
 
 
+def get_author_list(db: Session) -> list[models.Author]:
+    return db.query(models.Author).all()
+
+
 def get_author_by_id(db: Session, pk: int) -> models.Author | None:
     return db.query(models.Author).get(ident=pk)
 
