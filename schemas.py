@@ -12,3 +12,7 @@ class BookBaseModel(BaseModel):
 
 class BookCreateModel(BookBaseModel):
     ...
+
+
+class BookModel(BookBaseModel):
+    id: int
