@@ -22,8 +22,11 @@ app = FastAPI()
 
 
 @app.get("/books/", response_model=list[schemas.BookModel])
-def get_all_books(db: Session = Depends(get_db)) -> list[models.Book]:
-    return crud.get_book_list(db)
+def get_all_books(
+    author_id: int | None = None,
+    db: Session = Depends(get_db)
+) -> list[models.Book]:
+    return crud.get_book_list(db, author_id)
 
 
 @app.post("/books/", response_model=schemas.BookModel)
